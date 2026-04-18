@@ -1,0 +1,630 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg1:#0e1a3a;--bg2:#132048;--bg3:#0b2240;
+  --blue:#3A8FE8;--teal:#1DC9A0;--amber:#F5A623;--purple:#9B6FE8;--coral:#E8705A;--green:#4CAF50;
+  --card:rgba(255,255,255,0.08);--border:rgba(255,255,255,0.14);--muted:rgba(255,255,255,0.58);--white:#fff;
+}
+.root{font-family:'Nunito',sans-serif;background:linear-gradient(140deg,#0e1a3a 0%,#132048 55%,#0b2240 100%);min-height:100vh;color:#fff;position:relative;overflow:hidden;}
+.deco{position:absolute;border-radius:50%;pointer-events:none;z-index:0;}
+.slide{position:relative;z-index:1;display:none;flex-direction:column;padding:22px 28px 16px;min-height:100vh;animation:sIn .42s cubic-bezier(.34,1.5,.64,1);}
+.slide.active{display:flex;}
+@keyframes sIn{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;}
+.badge{font-size:10px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;padding:5px 13px;border-radius:20px;color:#fff;}
+.ctr{font-size:12px;color:var(--muted);font-weight:700;}
+.timer{background:rgba(29,201,160,.18);border:1px solid rgba(29,201,160,.38);color:#1DC9A0;font-size:12px;font-weight:800;padding:5px 12px;border-radius:20px;}
+.stitle{font-family:'Fredoka One',sans-serif;font-size:34px;line-height:1.1;margin-bottom:4px;background:linear-gradient(135deg,#F5A623,#E8705A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ssub{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:16px;}
+.full{flex:1;display:flex;flex-direction:column;gap:13px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:15px;transition:transform .2s;}
+.card:hover{transform:translateY(-2px);}
+.clbl{font-size:9px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:5px;opacity:.7;}
+.ctit{font-family:'Fredoka One',sans-serif;font-size:18px;margin-bottom:4px;}
+.ctxt{font-size:12px;color:var(--muted);line-height:1.62;font-weight:600;}
+.fact{background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.28);border-radius:13px;padding:12px 15px;display:flex;align-items:center;gap:11px;}
+.fi{font-size:22px;flex-shrink:0;}
+.ft{font-size:12px;font-weight:700;color:#F5A623;line-height:1.5;}
+.ft strong{color:#fff;font-size:13px;display:block;margin-bottom:2px;}
+.dots{display:flex;gap:7px;align-items:center;justify-content:center;margin-top:auto;padding-top:13px;}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s;cursor:pointer;}
+.dot.active{background:#1DC9A0;width:25px;border-radius:5px;}
+.dot.done{background:rgba(29,201,160,.42);}
+.navs{display:flex;gap:10px;justify-content:center;margin-top:13px;}
+.nb{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:50px;padding:9px 22px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:#fff;cursor:pointer;transition:all .2s;}
+.nb:hover{background:rgba(29,201,160,.18);border-color:#1DC9A0;}
+.nb.pri{background:linear-gradient(135deg,#1DC9A0,#0fa07e);border-color:transparent;}
+.nb.pri:hover{transform:scale(1.04);}
+.formula-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:12px 16px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.formula{font-family:'Fredoka One',sans-serif;font-size:26px;color:#F5A623;text-align:center;}
+.formula span{color:var(--muted);font-size:18px;margin:0 4px;}
+.slider-row{display:flex;align-items:center;gap:10px;margin:6px 0;}
+.slider-lbl{font-size:12px;font-weight:800;color:var(--muted);min-width:60px;}
+.slider-val{font-family:'Fredoka One',sans-serif;font-size:16px;min-width:34px;text-align:right;}
+input[type=range]{flex:1;accent-color:#1DC9A0;height:4px;cursor:pointer;}
+.shape-canvas{border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;padding:10px;}
+.area-result{font-family:'Fredoka One',sans-serif;font-size:32px;color:#1DC9A0;text-align:center;}
+.area-unit{font-size:14px;color:var(--muted);font-weight:700;text-align:center;margin-top:2px;}
+.step-row{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.snm{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
+.stxt{font-size:12px;font-weight:700;line-height:1.5;}
+.ssm{font-size:11px;color:var(--muted);margin-top:2px;}
+.ci{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.ciico{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;}
+.ci-d{background:rgba(29,201,160,.2);color:#1DC9A0;}
+.ci-n{background:rgba(245,166,35,.2);color:#F5A623;}
+.ci-s{background:rgba(255,255,255,.08);color:rgba(255,255,255,.3);}
+.ci-l{font-size:13px;font-weight:700;}
+.ci-t{font-size:11px;color:var(--muted);font-weight:600;}
+.qtext{font-family:'Fredoka One',sans-serif;font-size:23px;text-align:center;margin:6px 0 18px;line-height:1.3;}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.qbtn{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:#fff;cursor:pointer;text-align:center;transition:all .18s;}
+.qbtn:hover{background:rgba(255,255,255,.12);transform:scale(1.02);}
+.qbtn.correct{background:rgba(29,201,160,.2);border-color:#1DC9A0;color:#7fffd4;}
+.qbtn.wrong{background:rgba(232,112,90,.18);border-color:#E8705A;color:#ffbbaa;}
+.qfb{text-align:center;font-size:18px;font-weight:900;margin-top:14px;min-height:28px;}
+.big-wrap{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:13px;}
+.big-title{font-family:'Fredoka One',sans-serif;font-size:46px;line-height:1.05;background:linear-gradient(135deg,#F5A623 0%,#E8705A 40%,#1DC9A0 85%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fu .65s ease both;}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.big-sub{font-size:15px;color:var(--muted);font-weight:700;max-width:360px;animation:fu .65s .1s ease both;opacity:0;animation-fill-mode:both;}
+.tutor-pill{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:50px;padding:8px 18px;font-size:13px;font-weight:700;animation:fu .65s .22s ease both;opacity:0;animation-fill-mode:both;}
+.av{width:30px;height:30px;background:linear-gradient(135deg,#1DC9A0,#0fa07e);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.meta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fu .65s .34s ease both;opacity:0;animation-fill-mode:both;}
+.meta{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--muted);}
+.mdot{width:7px;height:7px;border-radius:50%;}
+.sbtn{background:linear-gradient(135deg,#F5A623,#E8705A);border:none;border-radius:50px;padding:13px 34px;font-family:'Fredoka One',sans-serif;font-size:19px;color:#fff;cursor:pointer;animation:fu .65s .46s ease both;opacity:0;animation-fill-mode:both;transition:transform .18s;}
+.sbtn:hover{transform:scale(1.05);}
+.trophy-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;width:100%;max-width:360px;animation:fu .65s .28s ease both;opacity:0;animation-fill-mode:both;}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px;text-align:center;}
+.tc-i{font-size:24px;margin-bottom:4px;}
+.tc-l{font-size:11px;font-weight:700;color:var(--muted);}
+.tc-v{font-size:13px;font-weight:800;}
+.shape-btn-row{display:flex;gap:8px;justify-content:center;margin-bottom:12px;}
+.shbtn{padding:7px 18px;border-radius:50px;font-size:12px;font-weight:800;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.shbtn.active{color:#fff;}
+.practice-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.pcard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:13px;text-align:center;cursor:pointer;transition:all .2s;}
+.pcard:hover{border-color:rgba(255,255,255,.3);}
+.pcard.correct{border-color:#1DC9A0;background:rgba(29,201,160,.12);}
+.pcard.wrong{border-color:#E8705A;background:rgba(232,112,90,.12);}
+.pcard-shape{display:flex;justify-content:center;margin-bottom:8px;}
+.pcard-q{font-size:11px;color:var(--muted);font-weight:700;margin-bottom:8px;}
+.pcard-opts{display:flex;flex-direction:column;gap:5px;}
+.pcard-opt{font-size:11px;font-weight:800;padding:5px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);cursor:pointer;color:var(--muted);transition:all .15s;}
+.pcard-opt:hover{background:rgba(255,255,255,.12);color:#fff;}
+.pcard-opt.cor{background:rgba(29,201,160,.2);border-color:#1DC9A0;color:#7fffd4;}
+.pcard-opt.wrg{background:rgba(232,112,90,.18);border-color:#E8705A;color:#ffbbaa;}
+</style>
+
+<h2 class="sr-only">5th Grade Math: Area of Squares, Rectangles and Triangles — Interactive Lesson</h2>
+
+<div class="root">
+  <div class="deco" style="width:300px;height:300px;background:rgba(58,143,232,.07);top:-70px;right:-70px;"></div>
+  <div class="deco" style="width:200px;height:200px;background:rgba(245,166,35,.06);bottom:80px;left:-50px;"></div>
+  <div class="deco" style="width:160px;height:160px;background:rgba(29,201,160,.05);top:40%;right:10px;"></div>
+
+  <!-- SLIDE 0: TITLE -->
+  <div class="slide active" id="sl-0">
+    <div class="topbar">
+      <span class="badge" style="background:linear-gradient(135deg,#F5A623,#E8705A);">5th Grade Math</span>
+      <span class="timer">60 min lesson</span>
+    </div>
+    <div class="big-wrap">
+      <div style="display:flex;gap:16px;align-items:flex-end;animation:fu .5s ease both;">
+        <svg width="52" height="52" viewBox="0 0 52 52"><rect x="4" y="4" width="44" height="44" rx="4" fill="#3A8FE8" opacity="0.9"/></svg>
+        <svg width="52" height="40" viewBox="0 0 52 40"><rect x="2" y="2" width="48" height="36" rx="3" fill="#E8705A" opacity="0.9"/></svg>
+        <svg width="52" height="52" viewBox="0 0 52 52"><polygon points="26,4 50,48 2,48" fill="#1DC9A0" opacity="0.9"/></svg>
+      </div>
+      <div class="big-title">Area of Shapes!</div>
+      <div class="big-sub">Learn to calculate the area of squares, rectangles and triangles — with interactive builders and real-world examples!</div>
+      <div class="tutor-pill">
+        <div class="av">📐</div>
+        Hi! I'm your math guide. Let's measure the world around us!
+      </div>
+      <div class="meta-row">
+        <div class="meta"><div class="mdot" style="background:#3A8FE8;"></div>Squares</div>
+        <div class="meta"><div class="mdot" style="background:#E8705A;"></div>Rectangles</div>
+        <div class="meta"><div class="mdot" style="background:#1DC9A0;"></div>Triangles</div>
+        <div class="meta"><div class="mdot" style="background:#F5A623;"></div>Quiz & Practice</div>
+      </div>
+      <button class="sbtn" onclick="go(1)">Let's Begin! ✏️</button>
+    </div>
+    <div class="dots" id="d0"></div>
+  </div>
+
+  <!-- SLIDE 1: LESSON PLAN -->
+  <div class="slide" id="sl-1">
+    <div class="topbar"><span class="badge" style="background:#1DC9A0;color:#04342C;">Lesson Plan</span><span class="ctr" id="c1"></span><span class="timer">60 min</span></div>
+    <div class="stitle">Today's Lesson Roadmap</div>
+    <div class="ssub">Everything we'll learn and do in the next 60 minutes 🗺️</div>
+    <div class="full">
+      <div style="flex:1;">
+        <div class="ci"><div class="ciico ci-d">✓</div><div><div class="ci-l">What is Area? Why does it matter?</div><div class="ci-t">0–10 min</div></div></div>
+        <div class="ci"><div class="ciico ci-n">→</div><div><div class="ci-l">Area of a Square — formula + interactive builder</div><div class="ci-t">10–20 min</div></div></div>
+        <div class="ci"><div class="ciico ci-s">○</div><div><div class="ci-l">Area of a Rectangle — formula + interactive builder</div><div class="ci-t">20–35 min</div></div></div>
+        <div class="ci"><div class="ciico ci-s">○</div><div><div class="ci-l">Area of a Triangle — formula + interactive builder</div><div class="ci-t">35–50 min</div></div></div>
+        <div class="ci" style="border:none;"><div class="ciico ci-s">○</div><div><div class="ci-l">Practice Problems + Quiz</div><div class="ci-t">50–60 min</div></div></div>
+      </div>
+      <div class="fact">
+        <div class="fi">💡</div>
+        <div class="ft"><strong>What is area?</strong>Area is the amount of flat space inside a shape — measured in square units like cm², m², or ft²!</div>
+      </div>
+    </div>
+    <div class="dots" id="d1"></div>
+    <div class="navs"><button class="nb" onclick="go(0)">← Back</button><button class="nb pri" onclick="go(2)">Next →</button></div>
+  </div>
+
+  <!-- SLIDE 2: WHAT IS AREA -->
+  <div class="slide" id="sl-2">
+    <div class="topbar"><span class="badge" style="background:#9B6FE8;">What is Area?</span><span class="ctr" id="c2"></span></div>
+    <div class="stitle">Understanding Area 📐</div>
+    <div class="ssub">Area = the space inside a 2D shape, measured in square units</div>
+    <div class="full">
+      <div class="g2">
+        <div class="card">
+          <div class="clbl" style="color:#9B6FE8;">Think of it this way</div>
+          <div class="ctit">Counting Squares</div>
+          <div class="ctxt">Imagine your shape on graph paper. Count every little square inside — that's the area! Each square = 1 square unit.</div>
+          <div style="margin-top:10px;">
+            <svg width="100%" height="90" viewBox="0 0 180 90" id="gridSvg"></svg>
+          </div>
+        </div>
+        <div class="card">
+          <div class="clbl" style="color:#F5A623;">Real-world examples</div>
+          <div class="ctit">We use area every day!</div>
+          <div class="ctxt" style="line-height:1.9;">
+            🏠 Flooring a room<br>
+            🌱 Measuring a garden<br>
+            🎨 Painting a wall<br>
+            📱 Screen size of a phone<br>
+            🏊 Size of a swimming pool
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="clbl" style="color:#1DC9A0;">3 shapes we'll master today</div>
+        <div class="g3" style="margin-top:8px;">
+          <div style="text-align:center;">
+            <svg width="70" height="70" viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="3" fill="#3A8FE8" opacity="0.85"/><text x="35" y="41" font-family="Fredoka One" font-size="16" fill="#fff" text-anchor="middle">s²</text></svg>
+            <div style="font-size:12px;font-weight:800;margin-top:5px;color:#3A8FE8;">Square</div>
+          </div>
+          <div style="text-align:center;">
+            <svg width="70" height="70" viewBox="0 0 70 70"><rect x="2" y="15" width="66" height="40" rx="3" fill="#E8705A" opacity="0.85"/><text x="35" y="40" font-family="Fredoka One" font-size="14" fill="#fff" text-anchor="middle">l × w</text></svg>
+            <div style="font-size:12px;font-weight:800;margin-top:5px;color:#E8705A;">Rectangle</div>
+          </div>
+          <div style="text-align:center;">
+            <svg width="70" height="70" viewBox="0 0 70 70"><polygon points="35,5 67,65 3,65" fill="#1DC9A0" opacity="0.85"/><text x="35" y="54" font-family="Fredoka One" font-size="12" fill="#fff" text-anchor="middle">½×b×h</text></svg>
+            <div style="font-size:12px;font-weight:800;margin-top:5px;color:#1DC9A0;">Triangle</div>
+          </div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fi">⭐</div>
+        <div class="ft"><strong>Key idea!</strong>Area is always in SQUARE units — cm², m², in². The little ² means "squared" = two dimensions: length and width!</div>
+      </div>
+    </div>
+    <div class="dots" id="d2"></div>
+    <div class="navs"><button class="nb" onclick="go(1)">← Back</button><button class="nb pri" onclick="go(3)">Next →</button></div>
+  </div>
+
+  <!-- SLIDE 3: SQUARE -->
+  <div class="slide" id="sl-3">
+    <div class="topbar"><span class="badge" style="background:#3A8FE8;">Square</span><span class="ctr" id="c3"></span></div>
+    <div class="stitle">Area of a Square 🟦</div>
+    <div class="ssub">All 4 sides are equal — so we just multiply the side by itself!</div>
+    <div class="full">
+      <div class="g2" style="flex:none;">
+        <div class="card">
+          <div class="clbl" style="color:#3A8FE8;">The Formula</div>
+          <div class="formula-box" style="margin:8px 0;">
+            <div class="formula">Area <span>=</span> s <span>×</span> s <span>=</span> s²</div>
+          </div>
+          <div class="ctxt"><span style="color:#3A8FE8;font-weight:800;">s</span> = the length of one side<br>Since all sides are equal, just multiply side × side!</div>
+          <div style="margin-top:10px;">
+            <div class="step-row"><div class="snm" style="background:rgba(58,143,232,.2);color:#3A8FE8;">1</div><div><div class="stxt">Measure one side (all sides equal)</div><div class="ssm">Example: side = 6 cm</div></div></div>
+            <div class="step-row"><div class="snm" style="background:rgba(58,143,232,.2);color:#3A8FE8;">2</div><div><div class="stxt">Multiply: side × side</div><div class="ssm">6 × 6 = 36</div></div></div>
+            <div class="step-row" style="border:none;"><div class="snm" style="background:rgba(58,143,232,.2);color:#3A8FE8;">3</div><div><div class="stxt">Write the answer in square units</div><div class="ssm">Area = 36 cm²</div></div></div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="clbl" style="color:#3A8FE8;">Interactive Square Builder</div>
+          <div class="slider-row">
+            <span class="slider-lbl">Side (s)</span>
+            <input type="range" min="1" max="12" value="6" id="sqSide" oninput="updateSquare()">
+            <span class="slider-val" id="sqSideVal" style="color:#3A8FE8;">6</span>
+            <span style="font-size:11px;color:var(--muted);margin-left:2px;">cm</span>
+          </div>
+          <div class="shape-canvas" style="flex:1;min-height:110px;">
+            <svg id="sqSvg" width="140" height="140" viewBox="0 0 140 140"></svg>
+          </div>
+          <div class="area-result" id="sqResult">36</div>
+          <div class="area-unit">cm² (square centimetres)</div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fi">🏡</div>
+        <div class="ft"><strong>Real-world!</strong>A square room is 5 m on each side. Area = 5 × 5 = 25 m². You'd need 25 floor tiles (each 1m²) to cover it!</div>
+      </div>
+    </div>
+    <div class="dots" id="d3"></div>
+    <div class="navs"><button class="nb" onclick="go(2)">← Back</button><button class="nb pri" onclick="go(4)">Next →</button></div>
+  </div>
+
+  <!-- SLIDE 4: RECTANGLE -->
+  <div class="slide" id="sl-4">
+    <div class="topbar"><span class="badge" style="background:#E8705A;">Rectangle</span><span class="ctr" id="c4"></span></div>
+    <div class="stitle">Area of a Rectangle 🟥</div>
+    <div class="ssub">Two different side lengths — multiply length by width!</div>
+    <div class="full">
+      <div class="g2" style="flex:none;">
+        <div class="card">
+          <div class="clbl" style="color:#E8705A;">The Formula</div>
+          <div class="formula-box" style="margin:8px 0;">
+            <div class="formula">Area <span>=</span> l <span>×</span> w</div>
+          </div>
+          <div class="ctxt"><span style="color:#E8705A;font-weight:800;">l</span> = length (longer side)<br><span style="color:#F5A623;font-weight:800;">w</span> = width (shorter side)<br>Multiply them together to get the area!</div>
+          <div style="margin-top:10px;">
+            <div class="step-row"><div class="snm" style="background:rgba(232,112,90,.2);color:#E8705A;">1</div><div><div class="stxt">Find the length and width</div><div class="ssm">Length = 8 cm, Width = 4 cm</div></div></div>
+            <div class="step-row"><div class="snm" style="background:rgba(232,112,90,.2);color:#E8705A;">2</div><div><div class="stxt">Multiply: length × width</div><div class="ssm">8 × 4 = 32</div></div></div>
+            <div class="step-row" style="border:none;"><div class="snm" style="background:rgba(232,112,90,.2);color:#E8705A;">3</div><div><div class="stxt">Add square units to your answer</div><div class="ssm">Area = 32 cm²</div></div></div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="clbl" style="color:#E8705A;">Interactive Rectangle Builder</div>
+          <div class="slider-row">
+            <span class="slider-lbl" style="color:#E8705A;">Length (l)</span>
+            <input type="range" min="1" max="14" value="8" id="rectL" oninput="updateRect()">
+            <span class="slider-val" id="rectLVal" style="color:#E8705A;">8</span>
+            <span style="font-size:11px;color:var(--muted);margin-left:2px;">cm</span>
+          </div>
+          <div class="slider-row">
+            <span class="slider-lbl" style="color:#F5A623;">Width (w)</span>
+            <input type="range" min="1" max="10" value="4" id="rectW" oninput="updateRect()">
+            <span class="slider-val" id="rectWVal" style="color:#F5A623;">4</span>
+            <span style="font-size:11px;color:var(--muted);margin-left:2px;">cm</span>
+          </div>
+          <div class="shape-canvas" style="flex:1;min-height:100px;">
+            <svg id="rectSvg" width="160" height="120" viewBox="0 0 160 120"></svg>
+          </div>
+          <div class="area-result" id="rectResult" style="color:#E8705A;">32</div>
+          <div class="area-unit">cm² (square centimetres)</div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fi">🎨</div>
+        <div class="ft"><strong>Real-world!</strong>A painting is 90 cm long and 60 cm wide. Area = 90 × 60 = 5,400 cm². That's how much canvas the artist used!</div>
+      </div>
+    </div>
+    <div class="dots" id="d4"></div>
+    <div class="navs"><button class="nb" onclick="go(3)">← Back</button><button class="nb pri" onclick="go(5)">Next →</button></div>
+  </div>
+
+  <!-- SLIDE 5: TRIANGLE -->
+  <div class="slide" id="sl-5">
+    <div class="topbar"><span class="badge" style="background:#1DC9A0;color:#04342C;">Triangle</span><span class="ctr" id="c5"></span></div>
+    <div class="stitle">Area of a Triangle 🔺</div>
+    <div class="ssub">A triangle is exactly half of a rectangle — so we use half the formula!</div>
+    <div class="full">
+      <div class="g2" style="flex:none;">
+        <div class="card">
+          <div class="clbl" style="color:#1DC9A0;">The Formula</div>
+          <div class="formula-box" style="margin:8px 0;">
+            <div class="formula">Area <span>=</span> ½ <span>×</span> b <span>×</span> h</div>
+          </div>
+          <div class="ctxt"><span style="color:#1DC9A0;font-weight:800;">b</span> = base (bottom side)<br><span style="color:#F5A623;font-weight:800;">h</span> = height (straight up, not slanted!)<br>Multiply base × height, then halve it!</div>
+          <div style="margin-top:10px;">
+            <div class="step-row"><div class="snm" style="background:rgba(29,201,160,.2);color:#1DC9A0;">1</div><div><div class="stxt">Find the base and the height</div><div class="ssm">Base = 10 cm, Height = 6 cm</div></div></div>
+            <div class="step-row"><div class="snm" style="background:rgba(29,201,160,.2);color:#1DC9A0;">2</div><div><div class="stxt">Multiply: base × height</div><div class="ssm">10 × 6 = 60</div></div></div>
+            <div class="step-row" style="border:none;"><div class="snm" style="background:rgba(29,201,160,.2);color:#1DC9A0;">3</div><div><div class="stxt">Divide by 2 (that's the "half"!)</div><div class="ssm">60 ÷ 2 = 30 cm²</div></div></div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="clbl" style="color:#1DC9A0;">Interactive Triangle Builder</div>
+          <div class="slider-row">
+            <span class="slider-lbl" style="color:#1DC9A0;">Base (b)</span>
+            <input type="range" min="2" max="14" value="10" id="triB" oninput="updateTri()">
+            <span class="slider-val" id="triBVal" style="color:#1DC9A0;">10</span>
+            <span style="font-size:11px;color:var(--muted);margin-left:2px;">cm</span>
+          </div>
+          <div class="slider-row">
+            <span class="slider-lbl" style="color:#F5A623;">Height (h)</span>
+            <input type="range" min="2" max="12" value="6" id="triH" oninput="updateTri()">
+            <span class="slider-val" id="triHVal" style="color:#F5A623;">6</span>
+            <span style="font-size:11px;color:var(--muted);margin-left:2px;">cm</span>
+          </div>
+          <div class="shape-canvas" style="flex:1;min-height:100px;">
+            <svg id="triSvg" width="160" height="120" viewBox="0 0 160 120"></svg>
+          </div>
+          <div class="area-result" id="triResult" style="color:#1DC9A0;">30</div>
+          <div class="area-unit">cm² (square centimetres)</div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fi">🏔️</div>
+        <div class="ft"><strong>Why half?</strong>Cut ANY rectangle diagonally — you get two identical triangles. So a triangle is always exactly half the rectangle that surrounds it!</div>
+      </div>
+    </div>
+    <div class="dots" id="d5"></div>
+    <div class="navs"><button class="nb" onclick="go(4)">← Back</button><button class="nb pri" onclick="go(6)">Next →</button></div>
+  </div>
+
+  <!-- SLIDE 6: PRACTICE -->
+  <div class="slide" id="sl-6">
+    <div class="topbar"><span class="badge" style="background:#9B6FE8;">Practice</span><span class="ctr" id="c6"></span></div>
+    <div class="stitle">Practice Problems 🧩</div>
+    <div class="ssub">Pick the correct area for each shape — tap your answer!</div>
+    <div class="full">
+      <div class="practice-grid" id="practiceGrid"></div>
+      <div style="text-align:center;font-size:13px;font-weight:800;color:var(--muted);min-height:22px;" id="practiceFb"></div>
+      <div class="fact" style="flex:none;">
+        <div class="fi">📏</div>
+        <div class="ft"><strong>Formula cheat sheet!</strong>Square: s² &nbsp;|&nbsp; Rectangle: l × w &nbsp;|&nbsp; Triangle: ½ × b × h</div>
+      </div>
+    </div>
+    <div class="dots" id="d6"></div>
+    <div class="navs"><button class="nb" onclick="go(5)">← Back</button><button class="nb pri" onclick="go(7)">Quiz Time! 🎯</button></div>
+  </div>
+
+  <!-- SLIDE 7: QUIZ -->
+  <div class="slide" id="sl-7">
+    <div class="topbar"><span class="badge" style="background:#E8705A;">Quiz!</span><span class="ctr" id="c7"></span></div>
+    <div class="stitle">Test Your Skills! 🎯</div>
+    <div class="ssub" id="qProg">Question 1 of 5</div>
+    <div class="full" style="justify-content:center;">
+      <div id="qShape" style="display:flex;justify-content:center;margin-bottom:4px;"></div>
+      <div class="qtext" id="qText"></div>
+      <div class="qopts" id="qOpts"></div>
+      <div class="qfb" id="qFb"></div>
+      <div style="display:flex;justify-content:center;margin-top:10px;">
+        <button class="nb pri" id="nqBtn" onclick="nextQ()" style="display:none;">Next Question →</button>
+      </div>
+    </div>
+    <div class="dots" id="d7"></div>
+    <div class="navs"><button class="nb" onclick="go(6)">← Back</button></div>
+  </div>
+
+  <!-- SLIDE 8: COMPLETE -->
+  <div class="slide" id="sl-8">
+    <div class="topbar"><span class="badge" style="background:#1DC9A0;color:#04342C;">Complete!</span><span class="ctr" id="c8"></span></div>
+    <div class="big-wrap">
+      <div style="font-size:60px;animation:fu .5s ease both;">🏆</div>
+      <div class="big-title" style="font-size:40px;">Area Expert!</div>
+      <div class="big-sub">You've completed the Area of Shapes lesson. Fantastic work, mathematician!</div>
+      <div class="trophy-grid">
+        <div class="tc"><div class="tc-i">🟦</div><div class="tc-l">Mastered</div><div class="tc-v" style="color:#3A8FE8;">Squares</div></div>
+        <div class="tc"><div class="tc-i">🟥</div><div class="tc-l">Mastered</div><div class="tc-v" style="color:#E8705A;">Rectangles</div></div>
+        <div class="tc"><div class="tc-i">🔺</div><div class="tc-l">Mastered</div><div class="tc-v" style="color:#1DC9A0;">Triangles</div></div>
+        <div class="tc"><div class="tc-i">🎯</div><div class="tc-l">Quiz Score</div><div class="tc-v" style="color:#F5A623;" id="finalScore">—</div></div>
+      </div>
+      <button class="sbtn" onclick="restartAll()" style="animation-delay:.55s;">Start Over 🔄</button>
+    </div>
+    <div class="dots" id="d8"></div>
+  </div>
+</div>
+
+<script>
+const TOTAL = 9;
+let cur = 0;
+let quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function go(n) {
+  document.getElementById('sl-'+cur).classList.remove('active');
+  cur = n;
+  document.getElementById('sl-'+n).classList.add('active');
+  if (n === 7) renderQ();
+  if (n === 6) renderPractice();
+}
+
+function makeDots() {
+  for (let s = 0; s < TOTAL; s++) {
+    const el = document.getElementById('d'+s);
+    if (!el) continue;
+    for (let i = 0; i < TOTAL; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i===s?' active':i<s?' done':'');
+      d.onclick = () => go(i);
+      el.appendChild(d);
+    }
+  }
+  for (let s = 1; s < TOTAL; s++) {
+    const el = document.getElementById('c'+s);
+    if (el) el.textContent = (s+1)+' / '+TOTAL;
+  }
+}
+
+function drawGrid() {
+  const svg = document.getElementById('gridSvg');
+  if (!svg) return;
+  let html = '';
+  const cols = 9, rows = 4, cw = 18, ch = 18;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const shade = (r < 3 && c < 6) ? 'rgba(58,143,232,0.35)' : 'rgba(255,255,255,0.06)';
+      html += `<rect x="${c*cw+2}" y="${r*ch+2}" width="${cw-2}" height="${ch-2}" rx="2" fill="${shade}" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>`;
+    }
+  }
+  html += `<text x="56" y="84" font-family="Fredoka One" font-size="11" fill="#3A8FE8" text-anchor="middle">18 shaded = 18 sq units</text>`;
+  svg.innerHTML = html;
+}
+
+function updateSquare() {
+  const s = parseInt(document.getElementById('sqSide').value);
+  document.getElementById('sqSideVal').textContent = s;
+  document.getElementById('sqResult').textContent = s * s;
+  const svg = document.getElementById('sqSvg');
+  const maxPx = 120, pad = 10;
+  const px = Math.round((s / 12) * maxPx);
+  const x = (140 - px) / 2, y = (140 - px) / 2;
+  svg.innerHTML = `
+    <rect x="${x}" y="${y}" width="${px}" height="${px}" rx="3" fill="rgba(58,143,232,0.25)" stroke="#3A8FE8" stroke-width="2"/>
+    <text x="${x + px/2}" y="${y - 5}" font-family="Fredoka One" font-size="12" fill="#3A8FE8" text-anchor="middle">${s} cm</text>
+    <text x="${x - 6}" y="${y + px/2 + 5}" font-family="Fredoka One" font-size="12" fill="#3A8FE8" text-anchor="middle" transform="rotate(-90,${x-6},${y+px/2+5})">${s} cm</text>
+    <text x="${x + px/2}" y="${y + px/2 + 6}" font-family="Fredoka One" font-size="13" fill="#fff" text-anchor="middle">${s}²=${s*s}</text>`;
+}
+
+function updateRect() {
+  const l = parseInt(document.getElementById('rectL').value);
+  const w = parseInt(document.getElementById('rectW').value);
+  document.getElementById('rectLVal').textContent = l;
+  document.getElementById('rectWVal').textContent = w;
+  document.getElementById('rectResult').textContent = l * w;
+  const svg = document.getElementById('rectSvg');
+  const maxW = 140, maxH = 90, pad = 14;
+  const pw = Math.round((l / 14) * maxW);
+  const ph = Math.round((w / 10) * maxH);
+  const x = (160 - pw) / 2, y = (120 - ph) / 2;
+  svg.innerHTML = `
+    <rect x="${x}" y="${y}" width="${pw}" height="${ph}" rx="3" fill="rgba(232,112,90,0.25)" stroke="#E8705A" stroke-width="2"/>
+    <text x="${x + pw/2}" y="${y - 4}" font-family="Fredoka One" font-size="11" fill="#E8705A" text-anchor="middle">${l} cm</text>
+    <text x="${x - 5}" y="${y + ph/2 + 4}" font-family="Fredoka One" font-size="11" fill="#F5A623" text-anchor="middle" transform="rotate(-90,${x-5},${y+ph/2+4})">${w} cm</text>
+    <text x="${x + pw/2}" y="${y + ph/2 + 5}" font-family="Fredoka One" font-size="12" fill="#fff" text-anchor="middle">${l}×${w}=${l*w}</text>`;
+}
+
+function updateTri() {
+  const b = parseInt(document.getElementById('triB').value);
+  const h = parseInt(document.getElementById('triH').value);
+  document.getElementById('triBVal').textContent = b;
+  document.getElementById('triHVal').textContent = h;
+  const area = (b * h) / 2;
+  document.getElementById('triResult').textContent = area % 1 === 0 ? area : area.toFixed(1);
+  const svg = document.getElementById('triSvg');
+  const maxW = 140, maxH = 88;
+  const pw = Math.round((b / 14) * maxW);
+  const ph = Math.round((h / 12) * maxH);
+  const cx = 80, by = 108, ty = by - ph;
+  const x1 = cx - pw/2, x2 = cx + pw/2;
+  svg.innerHTML = `
+    <polygon points="${cx},${ty} ${x2},${by} ${x1},${by}" fill="rgba(29,201,160,0.25)" stroke="#1DC9A0" stroke-width="2"/>
+    <line x1="${cx}" y1="${ty}" x2="${cx}" y2="${by}" stroke="#F5A623" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="${cx + pw/2 + 10}" y="${ty + ph/2 + 4}" font-family="Fredoka One" font-size="11" fill="#F5A623">h=${h}</text>
+    <text x="${cx}" y="${by + 14}" font-family="Fredoka One" font-size="11" fill="#1DC9A0" text-anchor="middle">b=${b} cm</text>
+    <text x="${cx}" y="${ty + ph/2 + 5}" font-family="Fredoka One" font-size="11" fill="#fff" text-anchor="middle">½×${b}×${h}</text>`;
+}
+
+const practiceProblems = [
+  { type:'square', s:5, opts:['20 cm²','25 cm²','10 cm²'], ans:1, label:'Square, s=5 cm' },
+  { type:'rect', l:7, w:3, opts:['21 cm²','10 cm²','42 cm²'], ans:0, label:'Rectangle, 7×3 cm' },
+  { type:'tri', b:8, h:6, opts:['48 cm²','14 cm²','24 cm²'], ans:2, label:'Triangle, b=8 h=6 cm' },
+];
+
+function makePShape(prob, w, h) {
+  if (prob.type === 'square') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect x="8" y="8" width="${w-16}" height="${h-16}" rx="2" fill="rgba(58,143,232,0.3)" stroke="#3A8FE8" stroke-width="2"/><text x="${w/2}" y="${h/2+5}" font-family="Fredoka One" font-size="11" fill="#3A8FE8" text-anchor="middle">s=${prob.s}</text></svg>`;
+  } else if (prob.type === 'rect') {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect x="5" y="14" width="${w-10}" height="${h-28}" rx="2" fill="rgba(232,112,90,0.3)" stroke="#E8705A" stroke-width="2"/><text x="${w/2}" y="${h/2+5}" font-family="Fredoka One" font-size="10" fill="#E8705A" text-anchor="middle">${prob.l}×${prob.w}</text></svg>`;
+  } else {
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polygon points="${w/2},8 ${w-8},${h-8} 8,${h-8}" fill="rgba(29,201,160,0.3)" stroke="#1DC9A0" stroke-width="2"/><text x="${w/2}" y="${h-14}" font-family="Fredoka One" font-size="9" fill="#1DC9A0" text-anchor="middle">b=${prob.b} h=${prob.h}</text></svg>`;
+  }
+}
+
+function renderPractice() {
+  const grid = document.getElementById('practiceGrid');
+  if (!grid || grid.dataset.rendered) return;
+  grid.dataset.rendered = '1';
+  let solved = 0;
+  grid.innerHTML = '';
+  practiceProblems.forEach((prob, pi) => {
+    const card = document.createElement('div');
+    card.className = 'pcard';
+    card.innerHTML = `<div class="pcard-shape">${makePShape(prob,80,68)}</div>
+      <div class="pcard-q">Area = ?</div>
+      <div class="pcard-opts" id="popts-${pi}"></div>`;
+    grid.appendChild(card);
+    const optsEl = document.getElementById('popts-'+pi);
+    prob.opts.forEach((opt, oi) => {
+      const btn = document.createElement('div');
+      btn.className = 'pcard-opt';
+      btn.textContent = opt;
+      btn.onclick = () => {
+        if (optsEl.dataset.answered) return;
+        optsEl.dataset.answered = '1';
+        optsEl.querySelectorAll('.pcard-opt').forEach((b,bi)=>{
+          if (bi === prob.ans) b.className='pcard-opt cor';
+          else if (bi === oi) b.className='pcard-opt wrg';
+        });
+        solved++;
+        card.className='pcard '+(oi===prob.ans?'correct':'wrong');
+        if (solved===practiceProblems.length) {
+          document.getElementById('practiceFb').textContent = solved===practiceProblems.length ? '🎉 All done! Ready for the quiz?' : '';
+          document.getElementById('practiceFb').style.color='#1DC9A0';
+        }
+      };
+      optsEl.appendChild(btn);
+    });
+  });
+}
+
+const questions = [
+  { shape:'sq', dims:{s:9}, q:'A square has a side of 9 cm. What is its area?', opts:['18 cm²','81 cm²','36 cm²','45 cm²'], ans:1 },
+  { shape:'rect', dims:{l:12,w:5}, q:'A rectangle is 12 cm long and 5 cm wide. What is its area?', opts:['34 cm²','60 cm²','17 cm²','72 cm²'], ans:1 },
+  { shape:'tri', dims:{b:10,h:8}, q:'A triangle has a base of 10 cm and height of 8 cm. What is its area?', opts:['80 cm²','18 cm²','40 cm²','20 cm²'], ans:2 },
+  { shape:'sq', dims:{s:7}, q:'A square tile has a side of 7 m. What is its area?', opts:['49 m²','28 m²','14 m²','56 m²'], ans:0 },
+  { shape:'rect', dims:{l:6,w:6}, q:'A rectangle is 6 cm × 6 cm. What shape is it, and what is its area?', opts:['Rectangle, 24 cm²','Square, 36 cm²','Triangle, 18 cm²','Square, 12 cm²'], ans:1 },
+];
+
+function qShapeSvg(q) {
+  const d = q.dims;
+  if (q.shape==='sq') return `<svg width="70" height="70" viewBox="0 0 70 70"><rect x="5" y="5" width="60" height="60" rx="3" fill="rgba(58,143,232,0.25)" stroke="#3A8FE8" stroke-width="2"/><text x="35" y="40" font-family="Fredoka One" font-size="13" fill="#3A8FE8" text-anchor="middle">s=${d.s}</text></svg>`;
+  if (q.shape==='rect') return `<svg width="90" height="60" viewBox="0 0 90 60"><rect x="3" y="3" width="84" height="54" rx="3" fill="rgba(232,112,90,0.25)" stroke="#E8705A" stroke-width="2"/><text x="45" y="34" font-family="Fredoka One" font-size="12" fill="#E8705A" text-anchor="middle">${d.l} × ${d.w}</text></svg>`;
+  return `<svg width="80" height="70" viewBox="0 0 80 70"><polygon points="40,5 75,65 5,65" fill="rgba(29,201,160,0.25)" stroke="#1DC9A0" stroke-width="2"/><text x="40" y="52" font-family="Fredoka One" font-size="11" fill="#1DC9A0" text-anchor="middle">b=${d.b} h=${d.h}</text></svg>`;
+}
+
+function renderQ() {
+  if (quizIdx >= questions.length) {
+    document.getElementById('qText').textContent = 'You finished the quiz!';
+    document.getElementById('qOpts').innerHTML = '';
+    document.getElementById('qShape').innerHTML = '';
+    document.getElementById('qFb').textContent = `Score: ${quizScore}/${questions.length} — Incredible!`;
+    document.getElementById('qFb').style.color = '#1DC9A0';
+    document.getElementById('nqBtn').style.display = 'none';
+    document.getElementById('finalScore').textContent = `${quizScore}/${questions.length}`;
+    setTimeout(()=>go(8), 2000);
+    return;
+  }
+  const q = questions[quizIdx];
+  document.getElementById('qProg').textContent = `Question ${quizIdx+1} of ${questions.length}`;
+  document.getElementById('qShape').innerHTML = qShapeSvg(q);
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('qFb').textContent = '';
+  document.getElementById('nqBtn').style.display = 'none';
+  quizAnswered = false;
+  const el = document.getElementById('qOpts');
+  el.innerHTML = '';
+  q.opts.forEach((o,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn'; b.textContent=o;
+    b.onclick=()=>ansQ(i,b);
+    el.appendChild(b);
+  });
+}
+
+function ansQ(i, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = questions[quizIdx];
+  document.querySelectorAll('.qbtn')[q.ans].classList.add('correct');
+  const fb = document.getElementById('qFb');
+  if (i===q.ans) { quizScore++; fb.textContent='⭐ Correct! Great job!'; fb.style.color='#1DC9A0'; }
+  else { btn.classList.add('wrong'); fb.textContent='❌ Not quite — the green answer is right!'; fb.style.color='#E8705A'; }
+  document.getElementById('nqBtn').style.display='inline-flex';
+}
+
+function nextQ() { quizIdx++; renderQ(); }
+
+function restartAll() {
+  quizIdx=0; quizScore=0; quizAnswered=false;
+  const pg = document.getElementById('practiceGrid');
+  if (pg) { pg.innerHTML=''; delete pg.dataset.rendered; }
+  go(0);
+}
+
+makeDots();
+drawGrid();
+updateSquare();
+updateRect();
+updateTri();
+</script>
